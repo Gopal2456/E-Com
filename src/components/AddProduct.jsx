@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 import { ProductContext } from "./ProductContext";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+
 
 const AddProduct = () => {
-  const { addProduct } = useContext(ProductContext); // Access the addProduct function from context
+  const { addProduct } = useContext(ProductContext);
   const [product, setProduct] = useState({
     title: "",
     price: "",
@@ -18,16 +19,26 @@ const AddProduct = () => {
     setProduct({ ...product, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://fakestoreapi.com/products",
-        product
-      );
-      setMessage(`Product added successfully: ${response.data.title}`);
+      const newProduct = {
+        ...product,
+        id: Date.now(), // Generate a unique id
+      };
+      // Get existing products from local storage
+      const existingProducts = JSON.parse(localStorage.getItem("products")) || [];
 
-      addProduct({ ...response.data, id: response.data.id || Date.now() });
+      // Add new product to the existing list
+      const updatedProducts = [...existingProducts, newProduct];
+
+      // Save the updated list to local storage
+      localStorage.setItem("products", JSON.stringify(updatedProducts));
+
+      // Update the context
+      addProduct(newProduct);
+
+      // Reset the form
       setProduct({
         title: "",
         price: "",
@@ -35,12 +46,14 @@ const AddProduct = () => {
         description: "",
         image: "",
       });
+
+      toast.success("Product added successfully!");
     } catch (error) {
       console.error("Error adding product:", error);
-      toast.success("Order Confirmed Sucessfully");
+      toast.error("Failed to add product.");
     }
   };
-  
+
   return (
     <div className="container mx-auto bg-[#f3d4ba] flex justify-center p-6">
       <form

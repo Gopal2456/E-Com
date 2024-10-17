@@ -149,13 +149,13 @@ const Dashboard = () => {
               <Link to={`/product/${product.id}`} key={product.id}>
                 <div
                   key={product.id}
-                  className="border rounded-lg p-4 shadow bg-[#F9E7DA] hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between h-96 relative"
+                  className="border rounded p-4 shadow bg-[#F9E7DA] hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between h-96 relative"
                 >
                   {/* Product image */}
                   <img
                     src={product.image}
                     alt={product.title}
-                    className="w-full bg-white h-52 object-contain mb-4"
+                    className="w-full bg-white rounded h-52 object-contain mb-4"
                   />
 
                   {/* Product title */}
@@ -172,6 +172,7 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
+
         <footer className="bg-gray-900 mt-12 w-fit text-gray-300 py-12">
           <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Company Info */}
@@ -184,8 +185,6 @@ const Dashboard = () => {
                 customers, ensuring quality and service excellence.
               </p>
             </div>
-
-            {/* Quick Links */}
             <div>
               <h2 className="text-lg font-semibold text-white mb-4">
                 Quick Links
@@ -213,8 +212,6 @@ const Dashboard = () => {
                 </li>
               </ul>
             </div>
-
-            {/* Customer Support */}
             <div>
               <h2 className="text-lg font-semibold text-white mb-4">
                 Customer Support
@@ -241,39 +238,6 @@ const Dashboard = () => {
                   </a>
                 </li>
               </ul>
-            </div>
-
-            {/* Social Media Links */}
-            <div>
-              <h2 className="text-lg font-semibold text-white mb-4">
-                Follow Us
-              </h2>
-              <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  <i className="fab fa-facebook-f"></i>
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  <i className="fab fa-twitter"></i>
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  <i className="fab fa-instagram"></i>
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  <i className="fab fa-linkedin"></i>
-                </a>
-              </div>
             </div>
           </div>
 

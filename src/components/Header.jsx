@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { FaUserAlt, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AiFillProduct } from "react-icons/ai";
+import { MdUpcoming } from "react-icons/md";
 import { ImCart } from "react-icons/im";
 
 const Header = () => {
@@ -23,6 +24,14 @@ const Header = () => {
           </a>
         </h1>
         <div className="flex items-center space-x-10">
+          <div className="flex items-center space-x-2 cursor-pointer">
+            <MdUpcoming className="h-6 w-6" />
+            <Link to="/productlist">
+              <button className="text-gray-800 px-2 py-3 rounded w-full">
+                Upcoming Products
+              </button>
+            </Link>
+          </div>
           <div className="flex items-center space-x-2 cursor-pointer">
             <AiFillProduct className="h-6 w-6" />
             <Link to="/addproduct">
@@ -51,16 +60,16 @@ const Header = () => {
 
             {/* Dropdown menu */}
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-lg py-2 z-10">
+              <div className="absolute right-0 mt-2 w-48 bg-orange-100 shadow-md rounded py-2 z-10">
                 <a
                   href="/profile"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100 transition-colors"
+                  className="block px-4 py-2 text-gray-800 hover:bg-orange-200 hover:text-black transition-colors"
                 >
                   Profile
                 </a>
                 <a
                   href="/logout"
-                  className="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-100 transition-colors"
+                  className="w-full text-left block px-4 py-2 text-gray-800 hover:bg-orange-200 hover:text-black transition-colors"
                 >
                   Logout
                 </a>

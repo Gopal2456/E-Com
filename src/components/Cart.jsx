@@ -5,8 +5,6 @@ import OrderConfirmationModal from "./OrderConfirmationModal";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -18,7 +16,6 @@ const Cart = () => {
     paymentMethod: "credit",
   });
 
-  // Fetch cart items from localStorage
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(storedCart);
@@ -47,16 +44,15 @@ const Cart = () => {
   };
 
   const handleConfirmOrder = () => {
-    // Add your order submission logic here (e.g., API call)
     console.log("Order confirmed with data:", formData);
-    toast.success("Order Confirmed Sucessfully");
+    toast.success("Order Confirmed Successfully");
     handleClose();
   };
 
   // Function to remove an item from the cart
   const removeFromCart = async (id) => {
     try {
-      await axios.delete(`https://fakestoreapi.com/carts/6`);
+      await axios.delete(`https://fakestoreapi.com/carts/6`); // Adjust the endpoint if needed
       const updatedCart = cart.filter((item) => item.id !== id);
       setCart(updatedCart);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -69,145 +65,108 @@ const Cart = () => {
   };
 
   // Function to update item quantity
-  const updateQuantity = (id, quantity) => {
-    const updatedCart = cart.map((item) =>
-      item.id === id ? { ...item, quantity } : item
-    );
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
+  const updateQuantity = async (id, quantity) => {
+    if (quantity < 1) return; // Prevents quantity from going below 1
 
-  // Modal component for updating quantity
-  const UpdateQuantityModal = ({ isOpen, onClose, item, onUpdate }) => {
-    const [quantity, setQuantity] = useState(item ? item.quantity : 1);
+    try {
+      const updatedItem = {
+        ...cart.find((item) => item.id === id),
+        quantity,
+      };
 
-    const handleUpdate = () => {
-      onUpdate(item.id, quantity);
-      onClose();
-    };
+      await axios.put(`https://fakestoreapi.com/carts/6`, updatedItem);
 
-    if (!isOpen) return null; // Don't render anything if the modal is closed
+      const updatedCart = cart.map((item) =>
+        item.id === id ? updatedItem : item
+      );
 
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div className="bg-white rounded-lg p-6 shadow-lg w-11/12 md:w-1/3">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-            Update Quantity
-          </h2>
-          <p className="mb-4 text-center text-gray-600">
-            Update the quantity for{" "}
-            <span className="font-semibold">{item.title}</span>:
-          </p>
-
-          <div className="flex justify-center mb-4">
-            <input
-              type="number"
-              value={quantity}
-              min="1"
-              onChange={(e) => setQuantity(Number(e.target.value))}
-              className="border rounded p-2 w-24 text-center"
-            />
-          </div>
-
-          <div className="mt-6 flex justify-center space-x-4">
-            <button
-              onClick={onClose}
-              className="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500 transition-colors duration-200"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleUpdate}
-              className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition-colors duration-200"
-            >
-              Update
-            </button>
-          </div>
-        </div>
-      </div>
-    );
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      toast.success("Quantity updated successfully"); // Notify user
+    } catch (error) {
+      console.error("Error updating item on the API:", error);
+      toast.error("Error updating quantity");
+    }
   };
 
   return (
-    <div className="container h-screen bg-[#f3d4ba] mx-auto p-6">
-      <h2 className="text-3xl justify-center flex font-bold mb-6 text-gray-800">
-        MY Cart
-      </h2>
-      {cart.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="container h-auto bg-[#efd6c2] mx-auto px-16 p-6">
+      {cart.length === 0 ? (
+        <p className="text-lg text-gray-600 text-center">Your cart is empty</p>
+      ) : (
+        <div className="space-y-8 p-4 rounded-md bg-white">
           {cart.map((item) => (
             <div
               key={item.id}
-              className="rounded-lg p-4 shadow bg-[#efe4dc] hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between h-full relative"
+              className="flex flex-col md:flex-row items-center md:items-start justify-between border-b pb-6 mb-6 space-y-4 md:space-y-0 md:space-x-6"
             >
-              {/* Product image */}
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full bg-white h-52 object-contain mb-4"
-              />
+              {/* Image Section */}
+              <div className="flex-shrink-0">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-32 h-32 object-cover rounded-lg shadow-lg"
+                />
+              </div>
 
-              {/* Product title */}
-              <h2 className="text-lg font-semibold mb-2 text-center">
-                {item.title}
-              </h2>
-
-              {/* Product price */}
-              <p className="text-gray-900 font-bold text-center mb-2">
-                ₹{item.price}
-              </p>
-
-              {/* Quantity */}
-              <p className="text-lg text-gray-600 mb-2 text-center">
-                Quantity: {item.quantity}
-              </p>
-
-              <div className="mt-auto flex justify-between items-center space-x-4">
-                {/* Update Button */}
-                <button
-                  onClick={() => {
-                    setSelectedItem(item);
-                    setModalOpen(true); // Open the modal
-                  }}
-                  className="w-full md:w-36  text-orange-500 font-semibold py-2 rounded transition-colors duration-200"
-                >
-                  Update
-                </button>
-
-                {/* Buy Now Button */}
-                <div className="w-full md:w-36">   
+              {/* Product Details */}
+              <div className="flex-1 md:mx-4 text-center md:text-left">
+                <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                  {item.title}
+                </h2>
+                <p className="text-gray-600 mb-5">Price: ₹{item.price}</p>
+                <div className="flex items-center gap-1 space-x-2">
                   <button
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    className="bg-blue-500 text-white px-2 rounded hover:bg-blue-600 transition duration-200"
+                    disabled={item.quantity <= 1} // Disable if quantity is 1
+                  >
+                    -
+                  </button>
+                  <p className="font-semibold text-green-500">
+                    Quantity: {item.quantity}
+                  </p>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    className="bg-blue-500 text-white px-2 rounded hover:bg-blue-600 transition duration-200"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* Actions: Update Quantity and Remove */}
+              <div className="flex items-center space-x-3 justify-center md:justify-end">
+                <button
                   onClick={() => removeFromCart(item.id)}
-                  className="w-full text-rose-700 font-semibold py-2 rounded transition-colors duration-200"
+                  className="bg-red-500 text-white py-1 px-4 rounded shadow-md hover:bg-red-600 transition duration-200"
                 >
                   Remove
                 </button>
-                </div>
-                <button
-                  onClick={handleOpen}
-                  className="w-full h-10 bg-green-500 text-white font-semibold py-2 rounded hover:bg-green-600 transition-colors duration-200">
-                    Buy Now
-                  </button>
               </div>
             </div>
           ))}
+          {/* Proceed to Checkout */}
+          {cart.length > 0 && (
+            <div className="flex justify-end mt-8">
+              <button
+                onClick={handleOpen}
+                className="bg-green-500 text-white py-2 px-6 rounded shadow-lg text-lg hover:bg-green-600 transition duration-200"
+              >
+                Proceed to Checkout
+              </button>
+            </div>
+          )}
         </div>
-      ) : (
-        <p className="text-gray-500 text-lg">Your cart is empty.</p>
       )}
-      {/* Modal for updating quantity */}
-      <UpdateQuantityModal
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        item={selectedItem}
-        onUpdate={updateQuantity}
-      />
+
+      {/* Render order confirmation modal */}
       <OrderConfirmationModal
         open={open}
         handleClose={handleClose}
+        handleConfirmOrder={handleConfirmOrder}
         formData={formData}
         handleChange={handleChange}
-        handleConfirmOrder={handleConfirmOrder}
       />
     </div>
   );
