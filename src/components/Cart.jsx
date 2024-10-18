@@ -134,8 +134,6 @@ const Cart = () => {
                   </button>
                 </div>
               </div>
-
-              {/* Actions: Update Quantity and Remove */}
               <div className="flex items-center space-x-3 justify-center md:justify-end">
                 <button
                   onClick={() => removeFromCart(item.id)}
@@ -146,7 +144,6 @@ const Cart = () => {
               </div>
             </div>
           ))}
-          {/* Proceed to Checkout */}
           {cart.length > 0 && (
             <div className="flex justify-end mt-8">
               <button
@@ -160,7 +157,6 @@ const Cart = () => {
         </div>
       )}
 
-      {/* Render order confirmation modal */}
       <OrderConfirmationModal
         open={open}
         handleClose={handleClose}

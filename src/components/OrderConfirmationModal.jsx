@@ -1,13 +1,24 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
+import { useNavigate } from "react-router-dom";
 
 const OrderConfirmationModal = ({
   open,
   handleClose,
   formData,
   handleChange,
-  handleConfirmOrder,
 }) => {
+  const navigate = useNavigate();
+
+  const handleOrderConfirm = () => {
+    const orderData = {
+      ...formData,
+      date: new Date().toLocaleString(), // Add current date and time
+    };
+    // Navigate to the OrderDetails page and pass the orderData as state
+    navigate("/orderdetails", { state: orderData });
+  };
+
   return (
     <Modal open={open} onClose={handleClose}>
       <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -166,12 +177,11 @@ const OrderConfirmationModal = ({
               </select>
             </div>
 
-            {/* Confirm and Cancel Buttons */}
             <div className="col-span-2 mt-4 gap-y-4">
               <div className="flex space-x-4">
                 <button
                   type="button"
-                  onClick={handleConfirmOrder}
+                  onClick={handleOrderConfirm} // This should now trigger navigation
                   disabled={
                     !formData.name ||
                     !formData.address ||

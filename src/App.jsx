@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import Cart from "./components/Cart";
 import AddProduct from "./components/AddProduct";
+import OrderDetails from "./components/Orderdetails";
 import { ProductProvider } from "./components/ProductContext";
 import ProductList from "./components/ProductList";
 import { ToastContainer } from 'react-toastify';
@@ -20,6 +21,7 @@ const Layout = ({ fetchCarts, showCarts, carts }) => (
       <Route path="product/:id" element={<Products />} />
       <Route path="addproduct" element={<AddProduct />} />
       <Route path="productlist" element={<ProductList />} />
+      <Route path="orderdetails" element={<OrderDetails />} />
       <Route path="cart" element={<Cart fetchCarts={fetchCarts} carts={carts} showCarts={showCarts} />} />
       <Route path="logout" element={<Logout />} />
     </Routes>
