@@ -65,22 +65,6 @@ const OrderModal = ({ open, onClose }) => {
                 />
               </div>
             ))}
-            {/* Payment Method */}
-            {/* <div>
-              <label className="block text-sm mb-2 font-medium text-gray-700">Payment Method</label>
-              <select
-                id="paymentMethod"
-                name="paymentMethod"
-                value={formData.paymentMethod}
-                onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-              >
-                <option value="">Select Payment Method</option>
-                <option value="COD">Cash on Delivery</option>
-                <option value="UPI">UPI</option>
-                <option value="Card">Credit/Debit Card</option>
-              </select>
-            </div> */}
 
             {/* Buttons - Confirm & Close */}
             <div className="sm:col-span-2 mt-5 mb-2 flex justify-between">

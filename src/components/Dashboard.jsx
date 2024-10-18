@@ -87,31 +87,31 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col">
       <div className="bg-[#f6c49b]">
+        {/* Landing Page */}
         <div
-          className="relative w-full h-[665px] bg-cover bg-center"
+          className="relative w-full h-[300px] sm:h-[500px] lg:h-[665px] bg-cover bg-center"
           style={{ backgroundImage: `url(${homeImage})` }}
         >
-          {/* Overlay with slight opacity */}
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center">
             {/* Welcome Text */}
-            <h1 className="text-5xl md:text-6xl text-slate-200 font-bold mb-10 text-center drop-shadow-md">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl text-slate-200 font-bold mb-5 sm:mb-10 text-center drop-shadow-md">
               Welcome to Our Store
             </h1>
 
             {/* Category Selection Section */}
             <div className="flex flex-col items-center w-full">
-              <h2 className="text-3x my-8 text-white text-2xl font-semibold">
-                Explore Our Categories. . .
+              <h2 className="text-lg sm:text-2xl md:text-3xl font-semibold text-white mb-4">
+                Explore Our Categories...
               </h2>
 
               {/* Category Buttons */}
-              <div className="flex flex-wrap font-serif mt-8 gap-16 justify-center">
+              <div className="flex flex-wrap font-serif mt-4 sm:mt-8 gap-4 sm:gap-16 justify-center">
                 {categories.map((category) => (
                   <button
                     key={category}
-                    className={`px-6 py-3 text-lg rounded font-medium border-b-2 transition-colors duration-300 ${
+                    className={`px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-lg rounded font-medium border-b-2 transition-colors duration-300 ${
                       selectedCategory === category
                         ? "text-white"
                         : "text-white hover:bg-[#c19876]"
@@ -126,13 +126,16 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Slider Section */}
         <div className="mt-4">
           <Slider />
         </div>
-        <div className="container mx-auto p-6">
+
+        {/* Product Grid Section */}
+        <div className="container mx-auto p-4 sm:p-6">
           {/* Display selected category */}
           {selectedCategory && (
-            <h2 className="text-2xl font-bold text-center mb-6">
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-center mb-4 sm:mb-6">
               Showing products in "{selectedCategory}"
             </h2>
           )}
@@ -143,23 +146,24 @@ const Dashboard = () => {
               Loading products...
             </div>
           )}
+
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {products.map((product) => (
               <Link to={`/product/${product.id}`} key={product.id}>
                 <div
                   key={product.id}
-                  className="border rounded p-4 shadow bg-[#F9E7DA] hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between h-96 relative"
+                  className="border rounded p-4 shadow bg-[#F9E7DA] hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between h-[350px] sm:h-[400px] md:h-[450px] relative"
                 >
                   {/* Product image */}
                   <img
                     src={product.image}
                     alt={product.title}
-                    className="w-full bg-white rounded h-52 object-contain mb-4"
+                    className="w-full bg-white rounded h-[150px] sm:h-[200px] md:h-[250px] object-contain mb-4"
                   />
 
                   {/* Product title */}
-                  <h2 className="text-lg font-semibold mb-2 text-center">
+                  <h2 className="text-sm sm:text-lg font-semibold mb-2 text-center">
                     {product.title}
                   </h2>
 
@@ -173,7 +177,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <footer className="bg-gray-900 mt-12 w-fit text-gray-300 py-12">
+        {/* Footer */}
+        <footer className="bg-gray-900 mt-12 w-full text-gray-300 py-8 sm:py-12">
           <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Company Info */}
             <div className="ps-4">
@@ -185,6 +190,8 @@ const Dashboard = () => {
                 customers, ensuring quality and service excellence.
               </p>
             </div>
+
+            {/* Quick Links */}
             <div>
               <h2 className="text-lg font-semibold text-white mb-4">
                 Quick Links
@@ -212,6 +219,8 @@ const Dashboard = () => {
                 </li>
               </ul>
             </div>
+
+            {/* Customer Support */}
             <div>
               <h2 className="text-lg font-semibold text-white mb-4">
                 Customer Support

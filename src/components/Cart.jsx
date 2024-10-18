@@ -15,16 +15,19 @@ const Cart = () => {
     state: "",
     paymentMethod: "credit",
   });
-
+  
+  // This function retrieves the user's cart data from local storage
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(storedCart);
   }, []);
 
+  // Function to open the form
   const handleOpen = () => {
     setOpen(true);
   };
 
+   // Function to close the form
   const handleClose = () => {
     setOpen(false);
     setFormData({
@@ -38,11 +41,13 @@ const Cart = () => {
     });
   };
 
+ // Function to handle Changes in the form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Function to handle Confirm Order
   const handleConfirmOrder = () => {
     console.log("Order confirmed with data:", formData);
     toast.success("Order Confirmed Successfully");
@@ -52,7 +57,7 @@ const Cart = () => {
   // Function to remove an item from the cart
   const removeFromCart = async (id) => {
     try {
-      await axios.delete(`https://fakestoreapi.com/carts/6`); // Adjust the endpoint if needed
+      await axios.delete(`https://fakestoreapi.com/carts/6`);
       const updatedCart = cart.filter((item) => item.id !== id);
       setCart(updatedCart);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -82,7 +87,7 @@ const Cart = () => {
 
       setCart(updatedCart);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
-      toast.success("Quantity updated successfully"); // Notify user
+      toast.success("Quantity updated successfully");
     } catch (error) {
       console.error("Error updating item on the API:", error);
       toast.error("Error updating quantity");
@@ -90,11 +95,13 @@ const Cart = () => {
   };
 
   return (
-    <div className="container h-auto bg-[#efd6c2] mx-auto px-16 p-6">
+    <div className="h-auto w-auto bg-[#efd6c2] mx-auto p-4 sm:px-6 md:px-8 lg:px-16 py-6">
       {cart.length === 0 ? (
         <p className="text-lg text-gray-600 text-center">Your cart is empty</p>
       ) : (
         <div className="space-y-8 p-4 rounded-md bg-white">
+          
+          {/* looping to render products */}
           {cart.map((item) => (
             <div
               key={item.id}
@@ -105,20 +112,22 @@ const Cart = () => {
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-32 h-32 object-cover rounded-lg shadow-lg"
+                  className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg shadow-lg"
                 />
               </div>
 
               {/* Product Details */}
               <div className="flex-1 md:mx-4 text-center md:text-left">
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
                   {item.title}
                 </h2>
-                <p className="text-gray-600 mb-5">Price: ₹{item.price}</p>
-                <div className="flex items-center gap-1 space-x-2">
+                <p className="text-gray-600 mb-4 sm:mb-5">
+                  Price: ₹{item.price}
+                </p>
+                <div className="flex items-center justify-center md:justify-start gap-1 space-x-2">
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                    className="bg-blue-500 text-white px-2 rounded hover:bg-blue-600 transition duration-200"
+                    className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition duration-200"
                     disabled={item.quantity <= 1} // Disable if quantity is 1
                   >
                     -
@@ -128,12 +137,14 @@ const Cart = () => {
                   </p>
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    className="bg-blue-500 text-white px-2 rounded hover:bg-blue-600 transition duration-200"
+                    className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition duration-200"
                   >
                     +
                   </button>
                 </div>
               </div>
+
+              {/* Remove Button */}
               <div className="flex items-center space-x-3 justify-center md:justify-end">
                 <button
                   onClick={() => removeFromCart(item.id)}
@@ -144,6 +155,8 @@ const Cart = () => {
               </div>
             </div>
           ))}
+
+          {/* Checkout Button */}
           {cart.length > 0 && (
             <div className="flex justify-end mt-8">
               <button
@@ -157,6 +170,7 @@ const Cart = () => {
         </div>
       )}
 
+      {/* Order Confirmation Modal */}
       <OrderConfirmationModal
         open={open}
         handleClose={handleClose}

@@ -7,7 +7,8 @@ const Slider = () => {
 
   useEffect(() => {
     const fetchImages = async () => {
-      try {
+      try { 
+        // Function to fetch the products
         const response = await axios.get("https://fakestoreapi.com/products");
         const products = response.data;
 
@@ -87,9 +88,6 @@ const Slider = () => {
           <div className="relative z-10 text-center">
             <h2 className="text-4xl font-bold mb-2 drop-shadow-lg">{slide.title}</h2>
             <p className="text-lg drop-shadow-md">{slide.description}</p>
-            {/* <button className="mt-4 px-6 py-2 bg-white text-orange-500 font-semibold rounded-md hover:bg-orange-500 hover:text-white transition">
-              Shop Now
-            </button> */}
           </div>
         </div>
       ))}

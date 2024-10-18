@@ -19,9 +19,10 @@ const Products = () => {
     pincode: "",
     city: "",
     state: "",
-    paymentMethod: "credit", // Default payment method
+    paymentMethod: "",
   });
 
+  // Function to handle Add To Cart 
   const handleAddToCart = (product) => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const productIndex = cart.findIndex((item) => item.id === product.id);
@@ -52,16 +53,17 @@ const Products = () => {
 
   // Function to handle form submission
   const handleConfirmOrder = () => {
-    // Add your order submission logic here (e.g., API call)
     console.log("Order confirmed with data:", formData);
     toast.success("Order Confirmed Sucessfully");
     handleClose();
   };
-
+  
+// Function to open the form
   const handleOpen = () => {
     setOpen(true);
   };
 
+// Function to close the form
   const handleClose = () => {
     setOpen(false);
     setFormData({
@@ -74,7 +76,7 @@ const Products = () => {
       paymentMethod: "credit",
     });
   };
-
+// Function to fetch the Product by their ID
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -175,8 +177,8 @@ const Products = () => {
                   <BuyNowButton onClick={handleOpen} className="w-full h-12" />
                 </div>
               </div>
-              {/* Material UI Modal */}
 
+              {/* Material UI Modal */}
               <OrderConfirmationModal
                 open={open}
                 handleClose={handleClose}

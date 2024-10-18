@@ -75,8 +75,9 @@ const ProductList = () => {
   };
 
   return (
-    <div className="bg-[#ecc9ad] h-[680px]">
-      <div className="grid grid-cols-1 w-6/7 mt-6 p-6 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="bg-[#ecc9ad] h-auto">
+      <div className="grid grid-cols-1 w-6/7 mt-6 pb-32 p-6 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* All the products are displayed here */}
         {products.length > 0 ? (
           products.map((product) => (
             <div
@@ -99,6 +100,7 @@ const ProductList = () => {
                 {product.description}
               </p>
 
+              {/* Edit and delete button */}
               <div className="flex justify-between gap-4 mt-4">
                 <button
                   onClick={() => handleEditClick(product)}
@@ -173,6 +175,7 @@ const ProductList = () => {
                 />
               </div>
             </div>
+            {/* Update and cancel buttons */}
             <div className="flex justify-end">
               <button
                 onClick={handleUpdateProduct}

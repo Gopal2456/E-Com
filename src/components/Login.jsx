@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [user, setuser] = useState("");
@@ -8,6 +9,7 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // function to submit the login data
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -17,6 +19,7 @@ const Login = () => {
         password: "83r5^_",   
       });
       console.log("Login successful:", response.data);
+      toast.success("Login Successfull..!");
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
@@ -24,7 +27,6 @@ const Login = () => {
     }
   };
   
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#f3d4ba]">
       <div className="w-full max-w-sm p-8 space-y-6 bg-white rounded shadow-md">

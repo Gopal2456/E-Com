@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Layout = ({ fetchCarts, showCarts, carts }) => (
   <>
+  {/* All routes for the page */}
     <Header fetchCarts={fetchCarts} showCarts={showCarts} carts={carts} />
     <Routes>
       <Route path="dashboard" element={<Dashboard />} />
@@ -55,6 +56,7 @@ function App() {
           />
         </Routes>
       </Router>
+      {/* This is for notifications */}
       <ToastContainer
           position="top-right"
           autoClose={3000}

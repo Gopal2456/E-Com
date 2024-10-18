@@ -9,7 +9,6 @@ const OrderDetails = () => {
   return (
     <div className="bg-[#f3d4ba] h-screen p-5">
       <div className="max-w-6xl mx-auto p-8 bg-[#ffffff] rounded-lg shadow-lg mt-10">
-        {/* Wrapper for Progress Tracker and Customer Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Order Progress Tracker */}
           <div className="border-r-2 w-[500px] ">
