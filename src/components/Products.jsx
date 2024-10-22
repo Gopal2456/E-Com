@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import BuyNowButton from "./BuyNowButton";
-import { Link } from "react-router-dom";
 import OrderConfirmationModal from "./OrderConfirmationModal";
+import { RxCross1 } from "react-icons/rx";
+import { useNavigate } from 'react-router-dom';
 
 const Products = () => {
   const { id } = useParams(); // Get the product ID from the URL
@@ -19,10 +20,16 @@ const Products = () => {
     pincode: "",
     city: "",
     state: "",
-    paymentMethod: "",
+    paymentMethod: "Cash on delivery",
   });
 
-  // Function to handle Add To Cart 
+  const navigate = useNavigate(); // Initialize navigate
+
+  const handleRedirect = () => {
+    navigate('/dashboard'); // Redirect to /dashboard
+  };
+
+  // Function to handle Add To Cart
   const handleAddToCart = (product) => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const productIndex = cart.findIndex((item) => item.id === product.id);
@@ -57,13 +64,13 @@ const Products = () => {
     toast.success("Order Confirmed Sucessfully");
     handleClose();
   };
-  
-// Function to open the form
+
+  // Function to open the form
   const handleOpen = () => {
     setOpen(true);
   };
 
-// Function to close the form
+  // Function to close the form
   const handleClose = () => {
     setOpen(false);
     setFormData({
@@ -73,10 +80,10 @@ const Products = () => {
       pincode: "",
       city: "",
       state: "",
-      paymentMethod: "credit",
+      paymentMethod: "Cash on delivery",
     });
   };
-// Function to fetch the Product by their ID
+  // Function to fetch the Product by their ID
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -119,6 +126,10 @@ const Products = () => {
 
             {/* Product Details */}
             <div className="flex flex-col justify-between">
+              <RxCross1
+                className="flex ml-[365px] w-5 h-5 cursor-pointer"
+                onClick={handleRedirect} // Add the onClick event
+              />
               <div>
                 <h2 className="text-3xl font-bold mb-4 text-gray-800">
                   {product.title}
@@ -164,14 +175,12 @@ const Products = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-4">
-                <Link to="/cart" className="w-full">
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="bg-yellow-500 text-white font-bold px-6 py-3 rounded hover:bg-yellow-600 w-full h-12"
-                  >
-                    Add to Cart
-                  </button>
-                </Link>
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="bg-yellow-500 text-white font-bold px-6 py-3 rounded hover:bg-yellow-600 w-full h-12"
+                >
+                  Add to Cart
+                </button>
 
                 <div className="w-full">
                   <BuyNowButton onClick={handleOpen} className="w-full h-12" />

@@ -1,6 +1,7 @@
-// OrderModal.js
 import React, { useState } from 'react';
-import { Modal } from '@mui/material'; // Adjust import based on your Material UI version
+import { Modal } from '@mui/material';
+import { toast } from "react-toastify";
+
 
 const OrderModal = ({ open, onClose }) => {
   const [formData, setFormData] = useState({
@@ -11,13 +12,8 @@ const OrderModal = ({ open, onClose }) => {
     pincode: '',
     city: '',
     state: '',
-    paymentMethod: '',
+    paymentMethod: 'Cash on delivery',
   });
-
-  // Function to handle modal open
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
   // Function to handle modal close
   const handleClose = () => {
@@ -33,8 +29,8 @@ const OrderModal = ({ open, onClose }) => {
 
   // Function to handle form submission
   const handleConfirmOrder = () => {
-    // Add logic here to handle order submission (e.g., API call)
     console.log("Order confirmed with data:", formData);
+    toast.success("Order confirmed successfully");
     onClose(); // Close modal after confirming
   };
 

@@ -160,7 +160,7 @@ const AddProduct = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-orange-400 text-slate-800 mt-5 font-semibold py-2 sm:py-3 rounded-lg shadow hover:bg-orange-300 transition-colors duration-200"
+          className="w-full bg-orange-500 text-white mt-5 font-semibold py-2 sm:py-3 rounded-lg shadow hover:bg-orange-600 transition-colors duration-200"
         >
           Add Product
         </button>

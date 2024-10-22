@@ -7,7 +7,7 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import Cart from "./components/Cart";
 import AddProduct from "./components/AddProduct";
-import OrderDetails from "./components/Orderdetails";
+import OrderDetails from "./components/OrderDetails";
 import { ProductProvider } from "./components/ProductContext";
 import ProductList from "./components/ProductList";
 import { ToastContainer } from 'react-toastify';

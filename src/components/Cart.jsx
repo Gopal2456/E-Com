@@ -13,9 +13,9 @@ const Cart = () => {
     pincode: "",
     city: "",
     state: "",
-    paymentMethod: "credit",
+    paymentMethod: "Cash on delivery",
   });
-  
+
   // This function retrieves the user's cart data from local storage
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -27,7 +27,7 @@ const Cart = () => {
     setOpen(true);
   };
 
-   // Function to close the form
+  // Function to close the form
   const handleClose = () => {
     setOpen(false);
     setFormData({
@@ -37,11 +37,11 @@ const Cart = () => {
       pincode: "",
       city: "",
       state: "",
-      paymentMethod: "credit",
+      paymentMethod: "",
     });
   };
 
- // Function to handle Changes in the form
+  // Function to handle Changes in the form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -94,91 +94,102 @@ const Cart = () => {
     }
   };
 
+  // Function to calculate total price
+  const getTotalPrice = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
   return (
-    <div className="h-auto w-auto bg-[#efd6c2] mx-auto p-4 sm:px-6 md:px-8 lg:px-16 py-6">
-      {cart.length === 0 ? (
-        <p className="text-lg text-gray-600 text-center">Your cart is empty</p>
-      ) : (
-        <div className="space-y-8 p-4 rounded-md bg-white">
-          
-          {/* looping to render products */}
-          {cart.map((item) => (
-            <div
-              key={item.id}
-              className="flex flex-col md:flex-row items-center md:items-start justify-between border-b pb-6 mb-6 space-y-4 md:space-y-0 md:space-x-6"
-            >
-              {/* Image Section */}
-              <div className="flex-shrink-0">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg shadow-lg"
-                />
-              </div>
+    <div className="h-auto w-auto bg-[#f5e4d5] mx-auto p-4 sm:px-6 md:px-8 lg:px-16 py-6">
+  {cart.length === 0 ? (
+    <p className="text-xl text-gray-700 font-semibold text-center">
+      Your cart is empty
+    </p>
+  ) : (
+    <div className="space-y-8 p-6 rounded-md bg-white shadow-lg">
+      {/* Looping to render products */}
+      {cart.map((item) => (
+        <div
+          key={item.id}
+          className="flex flex-col md:flex-row items-center md:items-start justify-between border-b pb-6 mb-6 space-y-4 md:space-y-0 md:space-x-6"
+        >
+          {/* Image Section */}
+          <div className="flex-shrink-0">
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg shadow-md"
+            />
+          </div>
 
-              {/* Product Details */}
-              <div className="flex-1 md:mx-4 text-center md:text-left">
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
-                  {item.title}
-                </h2>
-                <p className="text-gray-600 mb-4 sm:mb-5">
-                  Price: ₹{item.price}
-                </p>
-                <div className="flex items-center justify-center md:justify-start gap-1 space-x-2">
-                  <button
-                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition duration-200"
-                    disabled={item.quantity <= 1} // Disable if quantity is 1
-                  >
-                    -
-                  </button>
-                  <p className="font-semibold text-green-500">
-                    Quantity: {item.quantity}
-                  </p>
-                  <button
-                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition duration-200"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Remove Button */}
-              <div className="flex items-center space-x-3 justify-center md:justify-end">
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  className="bg-red-500 text-white py-1 px-4 rounded shadow-md hover:bg-red-600 transition duration-200"
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
-
-          {/* Checkout Button */}
-          {cart.length > 0 && (
-            <div className="flex justify-end mt-8">
+          {/* Product Details */}
+          <div className="flex-1 md:mx-4 text-center md:text-left">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
+              {item.title}
+            </h2>
+            <p className="text-gray-600 mb-4 sm:mb-5">
+              Price: ₹{item.price}
+            </p>
+            <div className="flex items-center justify-center md:justify-start gap-4">
               <button
-                onClick={handleOpen}
-                className="bg-green-500 text-white py-2 px-6 rounded shadow-lg text-lg hover:bg-green-600 transition duration-200"
+                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                className={`bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition duration-200 ${
+                  item.quantity <= 1 ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                disabled={item.quantity <= 1}
               >
-                Proceed to Checkout
+                -
+              </button>
+              <p className="font-semibold text-green-500">
+                Quantity: {item.quantity}
+              </p>
+              <button
+                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition duration-200"
+              >
+                +
               </button>
             </div>
-          )}
-        </div>
-      )}
+          </div>
 
-      {/* Order Confirmation Modal */}
-      <OrderConfirmationModal
-        open={open}
-        handleClose={handleClose}
-        handleConfirmOrder={handleConfirmOrder}
-        formData={formData}
-        handleChange={handleChange}
-      />
+          {/* Remove Button */}
+          <div className="flex items-center space-x-3 justify-center md:justify-end">
+            <button
+              onClick={() => removeFromCart(item.id)}
+              className="bg-red-500 text-white py-1 px-4 rounded shadow-md hover:bg-red-600 transition duration-200"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      ))}
+
+      {/* Total Price & Checkout */}
+      <div className="flex justify-between items-center text-lg font-semibold text-gray-800">
+        <div>Total Price: <span className="text-green-600">₹ {getTotalPrice().toFixed(2)}</span></div>
+
+        {cart.length > 0 && (
+          <button
+            onClick={handleOpen}
+            className="bg-orange-500 text-white py-2 px-6 rounded shadow-lg text-lg hover:bg-orange-600 transition duration-200"
+          >
+            Proceed to Checkout
+          </button>
+        )}
+      </div>
     </div>
+  )}
+
+  {/* Order Confirmation Modal */}
+  <OrderConfirmationModal
+    open={open}
+    handleClose={handleClose}
+    handleConfirmOrder={handleConfirmOrder}
+    formData={formData}
+    handleChange={handleChange}
+  />
+</div>
+
   );
 };
 

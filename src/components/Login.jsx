@@ -9,7 +9,7 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // function to submit the login data
+  // Function to submit the login data
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);

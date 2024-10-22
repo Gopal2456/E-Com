@@ -179,7 +179,7 @@ const ProductList = () => {
             <div className="flex justify-end">
               <button
                 onClick={handleUpdateProduct}
-                className="bg-orange-500 text-white py-2 px-4 rounded shadow hover:bg-orange-600 transition duration-200 mt-4"
+                className="bg-orange-500 text-white py-2 px-4 rounded shadow hover:bg-orange-600 mt-4"
               >
                 Update Product
               </button>
