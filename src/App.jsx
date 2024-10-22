@@ -12,6 +12,7 @@ import { ProductProvider } from "./components/ProductContext";
 import ProductList from "./components/ProductList";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import MyProfile from "./components/MyProfile";
 
 const Layout = ({ fetchCarts, showCarts, carts }) => (
   <>
@@ -22,6 +23,7 @@ const Layout = ({ fetchCarts, showCarts, carts }) => (
       <Route path="product/:id" element={<Products />} />
       <Route path="addproduct" element={<AddProduct />} />
       <Route path="productlist" element={<ProductList />} />
+      <Route path="myprofile" element={<MyProfile />} />
       <Route path="orderdetails" element={<OrderDetails />} />
       <Route path="cart" element={<Cart fetchCarts={fetchCarts} carts={carts} showCarts={showCarts} />} />
       <Route path="logout" element={<Logout />} />
